@@ -6,6 +6,7 @@ import (
 )
 
 func handlerFunc(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "text/html")
 	fmt.Fprint(w, "<h1>Welcome to photosplash</h1>")
 }
 
