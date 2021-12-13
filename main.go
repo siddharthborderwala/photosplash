@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -28,11 +29,18 @@ func notfound(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "The page you are looking for does not exist or has been moved")
 }
 
+func faq(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "text/html")
+	data, _ := os.ReadFile("./pages/faq.html")
+	fmt.Fprint(w, string(data))
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
 	r.HandleFunc("/hello/{name}", hello)
+	r.HandleFunc("/faq", faq)
 
 	r.NotFoundHandler = http.HandlerFunc(notfound)
 	http.ListenAndServe(":3000", r)
